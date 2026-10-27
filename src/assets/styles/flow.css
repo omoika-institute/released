@@ -1,0 +1,360 @@
+/* start react flow style overrides */
+
+.react-flow__edge .react-flow__edge-path {
+  stroke: #535045 !important;
+  stroke-width: 2;
+}
+.react-flow__edge .react-flow__edge-path.connected {
+  stroke: var(--color-review-border) !important;
+  stroke-width: 2;
+}
+.react-flow__handle.connectingto {
+  cursor: cell;
+}
+.react-flow__handle.react-flow__handle-left {
+  left: -8px;
+}
+.react-flow__handle.react-flow__handle-right {
+  left: calc(100% - 4px);
+}
+.react-flow__handle.react-flow__handle-top {
+  top: -8px;
+}
+.react-flow__handle.react-flow__handle-bottom {
+  top: calc(100% - 4px);
+}
+.validationflow .react-flow__handle.connectingto {
+  border-color: var(--color-red-600);
+}
+.validationflow .react-flow__handle.valid {
+  border-color: var(--color-green-600);
+}
+.react-flow__handle.connectionindicator {
+  border-width: 1.75px;
+  border-color: rgb(115 116 121 / 0.28);
+  background-color: var(--color-canvas);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.025),
+    0 6px 14px rgb(0 0 0 / 0.24);
+  transition:
+    background-color ease-in 75ms,
+    border-color ease-in 75ms,
+    box-shadow ease-in 75ms;
+}
+.react-flow__handle.connectionindicator:hover {
+  border-color: var(--color-review-border);
+  background-color: var(--color-review-border);
+  box-shadow:
+    0 0 0 1px rgb(29 45 245 / 0.2),
+    0 0 18px rgb(29 45 245 / 0.24);
+}
+.react-flow__handle.connectionindicator:focus,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto {
+  border-color: var(--color-review-border);
+  background-color: var(--color-review-border);
+  cursor: cell;
+}
+
+.react-flow__edge.selectable:hover .react-flow__edge-path,
+.react-flow__edge.selectable.selected .react-flow__edge-path {
+  stroke: var(--color-review-border) !important;
+}
+
+.react-flow__controls {
+  overflow: hidden;
+  border: 1px solid rgb(115 116 121 / 0.22);
+  background: var(--color-canvas);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 0.3);
+}
+
+.react-flow__controls button {
+  background: var(--color-paper);
+  border-bottom: 1px solid rgb(115 116 121 / 0.18);
+  color: color-mix(in srgb, var(--color-primary-txt) 58%, transparent);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.react-flow__controls button:hover {
+  background: var(--color-panel);
+  color: var(--color-review-border);
+}
+
+.react-flow__controls button svg {
+  fill: currentColor;
+}
+
+.react-flow__minimap {
+  overflow: hidden;
+  border: 1px solid rgb(115 116 121 / 0.22);
+  background: var(--color-canvas);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 0.3);
+}
+
+.react-flow__minimap-mask {
+  fill: rgb(2 2 12 / 0.68);
+}
+
+.react-flow__minimap-node {
+  fill: var(--color-review-border);
+  stroke: rgb(244 247 255 / 0.38);
+}
+
+.harness-react-flow .react-flow__controls button {
+  background: #06070b;
+  border-bottom: 1px solid rgba(91, 96, 155, 0.22);
+  color: #adb4d1;
+}
+
+.harness-react-flow .react-flow__controls button:hover {
+  background: rgba(29, 45, 245, 0.12);
+  color: var(--color-primary-300);
+}
+
+.harness-react-flow .react-flow__controls button svg {
+  fill: currentColor;
+}
+
+.harness-react-flow .react-flow__minimap-mask {
+  fill: rgba(2, 2, 12, 0.72);
+}
+
+.harness-react-flow .react-flow__minimap-node {
+  fill: var(--color-primary-350);
+  stroke: rgba(173, 180, 209, 0.48);
+}
+
+.harness-react-flow .react-flow__edge-textbg {
+  fill: #04060c;
+}
+
+.harness-react-flow .react-flow__edge-text {
+  fill: #adb4d1;
+  font-family: var(--font-code);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.graph-is-panning .graph-edge-label {
+  display: none;
+}
+
+.react-flow__viewport {
+  will-change: transform;
+}
+
+.graph-is-panning
+  .unverified-node-hint:not(.is-selected)
+  .unverified-node-panel,
+.graph-is-panning
+  .unverified-node-hint:not(.is-selected)
+  .unverified-node-leader,
+.graph-is-panning
+  .unverified-node-hint:not(.is-selected)
+  .unverified-node-leader-angled,
+.graph-is-panning
+  .unverified-node-hint:not(.is-selected)
+  .unverified-node-hover-field {
+  display: none !important;
+}
+
+.graph-is-panning .react-flow__edge-path.unverified-resolution-edge,
+.graph-is-panning [class*="animate-"] {
+  animation: none !important;
+}
+
+.graph-is-panning .unverified-node-glow {
+  animation: none !important;
+  opacity: 0.52;
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+.graph-is-panning .react-flow__node,
+.graph-is-panning .node,
+.graph-is-panning .node-field,
+.graph-is-panning .react-flow__handle {
+  transition: none !important;
+}
+
+.graph-is-panning .node,
+.graph-is-panning .node.wrapper,
+.graph-is-panning .unverified-node-hint {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+@keyframes unverifiedResolutionEdgeDash {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+.react-flow__edge .react-flow__edge-path.unverified-resolution-edge {
+  stroke: var(--color-review-border) !important;
+  stroke-dasharray: 7 3 1.5 3;
+}
+
+
+.graph-loading-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 2.5rem;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.graph-loading-overlay::before,
+.graph-loading-overlay::after {
+  content: none;
+}
+
+.graph-loading-overlay--leaving {
+  animation: graphLoaderFlowOut 1500ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.graph-loading-overlay--leaving .graph-loading-globe {
+  animation: graphLoaderGlobeOut 1400ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.graph-loading-overlay--leaving .graph-loading-copy {
+  animation: graphLoaderCopyExit 900ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.graph-loading-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  background: var(--color-canvas);
+  justify-items: center;
+  transform: translate(-50%, -51%);
+}
+
+.graph-loading-copy {
+  display: grid;
+  justify-items: center;
+  margin-top: -0.8rem;
+  text-align: center;
+}
+
+.graph-loading-title {
+  margin: 0;
+  color: rgba(244, 247, 255, 0.92);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.graph-loading-subtitle {
+  margin: 0.1rem 0 0;
+  color: rgba(173, 180, 209, 0.72);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.graph-loading-progress {
+  position: relative;
+  width: 12rem;
+  height: 2px;
+  margin-top: 1.1rem;
+  overflow: hidden;
+  background: rgba(72, 82, 139, 0.32);
+}
+
+.graph-loading-progress span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, #1d2df5, #3264ff);
+  box-shadow: 0 0 12px rgba(29, 45, 245, 0.76);
+  animation: graphLoaderProgress 2.8s ease-in-out infinite;
+}
+
+.graph-loading-percent {
+  margin: 0.55rem 0 0;
+  color: #1d45ff;
+  font-size: 0.86rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow: 0 0 10px rgba(29, 45, 245, 0.55);
+}
+
+@keyframes graphLoaderGlobeOut {
+  0% {
+    opacity: 0.9;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0) drop-shadow(0 18px 44px rgb(0 0 0 / 0.42))
+      drop-shadow(0 0 28px rgb(217 170 66 / 0.16));
+  }
+  42% {
+    opacity: 0.76;
+    transform: scale(0.82) rotate(18deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.12) rotate(130deg);
+    filter: blur(3px) drop-shadow(0 0 0 rgb(217 170 66 / 0));
+  }
+}
+
+@keyframes graphLoaderProgress {
+  0%,
+  100% {
+    opacity: 0.74;
+    transform: scaleX(0.96);
+    transform-origin: left;
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.05);
+    transform-origin: left;
+  }
+}
+
+@keyframes graphLoaderFlowOut {
+  0% {
+    clip-path: circle(145% at 50% 50%);
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  44% {
+    clip-path: circle(54% at 50% 50%);
+    opacity: 0.72;
+    filter: blur(0.35px);
+    transform: scale(0.985);
+  }
+  100% {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+    filter: blur(2px);
+    transform: scale(0.94);
+    background-position:
+      0 0,
+      0 0,
+      32px 32px,
+      80px 80px;
+  }
+}
+
+@keyframes graphLoaderCopyExit {
+  100% {
+    opacity: 0;
+    transform: translateY(0.4rem) scale(0.94);
+    filter: blur(1px);
+  }
+}
+/* end react flow style overrides */

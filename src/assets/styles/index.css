@@ -1,0 +1,335 @@
+@import "tailwindcss";
+@import "./toasts.css";
+@import "./fonts.css";
+@import "./animations.css";
+@import "./grids.css";
+@import "./hamburger.css";
+@import "./flow.css";
+@import "./nodes.css";
+@import "./loaders.css";
+@import "./tooltips.css";
+
+.react-resizable-handle {
+  pointer-events: auto;
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+/* TODO: we want themes to actually look different, define some CSS eventually... */
+/* [data-theme="matrix"] { color-scheme: dark; } */
+/* [data-theme="matrix"] body { background: #000; } */
+/* [data-theme="matrix"] .matrix-glow { text-shadow: 0 0 8px #00ff88; } */
+
+@theme {
+  --color-canvas: #070707;
+  --color-paper: #080808;
+  --color-card: #11110f;
+  --color-panel: #151514;
+
+  --color-subtle: #33322f;
+  --color-kard: #4b4a45;
+  --color-divider: #57554e;
+  --color-accent: #5b584f;
+  --color-muted: #555149;
+
+  /* Typography */
+  --color-primary-txt: #ebe2cc;
+  --color-secondary-txt: #e7dfc9;
+  --color-body-txt: #9d9789;
+  --color-muted-txt: #8d887b;
+  --color-micro-txt: #797568;
+  --color-terminal-txt: #716e64;
+  --color-counter-txt: #898273;
+  --color-numeric-txt: #ddd6bd;
+  --color-main-txt: #e6dfcc;
+
+  /* Automation */
+  --color-auto-border: #b7aa86;
+  --color-auto-txt: #d8c99b;
+
+  /* Review */
+  --color-review-border: #d9aa42;
+  --color-review-txt: #f3c65e;
+
+  /* Approve */
+  --color-approve-border: #5d9d6d;
+  --color-approve-txt: #83d193;
+
+  /* Reject */
+  --color-reject-border: #a94343;
+  --color-reject-txt: #e86d67;
+
+  /* Indicators */
+  --color-dot-idle: #6d6a60;
+  --color-dot-active: #d5c391;
+
+  /* Texture overlays */
+  --color-texture-grid: rgba(255, 255, 255, 0.04);
+  --color-texture-hatch: rgba(217, 210, 185, 0.18);
+  --color-texture-noise: rgba(255, 255, 255, 0.7);
+
+  /* Shadows */
+  --color-hairline: rgba(255, 255, 255, 0.015);
+
+  --color-ink: #d4d4d4;
+  --color-ink-soft: #adadad;
+  --color-ink-hard: #737479;
+
+  --color-pencil: #d2d2d3;
+  --color-pencil-soft: #858587;
+
+  /* --color-panel: #010611; */
+  --color-panel-strong: #0f1419;
+  --color-panel-soft: #040913;
+
+  --color-card: #6b6b6b;
+  --color-card-strong: #414244;
+  --color-card-soft: #575758;
+
+  --color-gray: #111111;
+  --color-gray-soft: #111111;
+  --color-gray-hard: #111111;
+
+  --color-signal: #008066;
+  --color-signal-hard: #025041;
+  --color-signal-soft: #01745d;
+
+  --color-warning: #ff6a2f;
+  --color-alert: #ffcc33;
+  --color-danger-soft: #ff4a53;
+  --color-danger-hard: rgb(230, 47, 56);
+  --color-danger: #c1292e;
+  --color-danger-50: #f7d9da;
+  --color-danger-100: #f2c4c5;
+  --color-danger-200: #e99a9c;
+  --color-danger-300: #e16f73;
+  --color-danger-400: #d8454a;
+  --color-danger-500: #c1292e;
+  --color-danger-600: #972024;
+  --color-danger-700: #6d171a;
+  --color-danger-800: #430e10;
+  --color-danger-900: #190506;
+
+  --font-sans: "Lato";
+  --font-display: "Zx Gamut";
+  /* TODO: Vendor the google fonts in index.html once I figure out what Im sticking with */
+  /* TODO: Saira looks nice, still need to experiment more with font pairings that fit this app */
+  --font-code: "Fira Code", "monospace";
+  --color-x: #25295f;
+
+  --animate-wiggle: wiggle 1000ms ease-in-out;
+  --animate-wiggle-8: wiggle 750ms ease-in-out infinite;
+  --animate-shine: shine var(--shine-speed, 1000ms) linear infinite;
+  --animate-slow-pulse: slow-pulse 3s cubic-bezier(0.6, 0, 0.8, 1) infinite;
+
+  --shadow-high:
+    0.3px 0.5px 0.5px #05071809, 0.5px 0.7px 0.7px -0.5px #05071809,
+    0.8px 1.1px 1.1px -0.1px #05071809, 1.5px 2.2px 2.1px -1.6px #05071809,
+    2.8px 4.2px 3.9px -1.1px #05071809, 5.1px 7.4px 7px -2.7px #05071809,
+    8.3px 12.3px 11.6px -2.2px #05071809, 12.9px 19px 17.9px -3.7px #05071809,
+    18.9px 27.9px 26.3px -3.3px #05071809, 26.7px 39.3px 37.1px -4.8px #05071809;
+}
+
+:root {
+  --scrollbar-track: #14120dde;
+  --scrollbar-thumb: #302914;
+  --scrollbar-thumb-hover: #161b2f;
+  --scrollbar-thumb-active: #12172a;
+
+  --xy-edge-stroke-default: #b1b1b7;
+  --xy-edge-stroke-width-default: 2;
+  --xy-edge-stroke-selected-default: #555;
+  --xy-connectionline-stroke-default: #b1b1b7;
+  --xy-connectionline-stroke-width-default: 1.5;
+  --xy-node-boxshadow-hover-default: 0 1px 4px 1px rgba(0, 0, 0, 0.08);
+  --xy-node-boxshadow-selected-default: 0 0 0 0.5px #1a192b;
+  --xy-node-border-radius-default: 3px;
+
+  --xy-handle-background-color-default: #1a192b;
+  --xy-handle-border-color-default: #fff;
+
+  --xy-selection-background-color-default: rgba(0, 89, 220, 0.08);
+  --xy-selection-border-default: 1px dotted rgba(0, 89, 220, 0.8);
+
+  --xy-background-color-props: #0d101a91;
+}
+
+#omoika {
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+::selection {
+  background-color: #ffd41663;
+  color: #fff;
+}
+
+svg.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+p {
+  font-family: var(--font-sans);
+}
+input[type="file"] {
+  display: none;
+}
+
+/* fix autofill bg for the shittiest browser in the world (chrome) P.S. use firefox, adblock works on it */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+/* 
+  Custom Scrollbar Styles 
+  Works on Chrome and Firefox and Electron
+*/
+@supports (scrollbar-width: auto) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  .iconpicker-scroll {
+    scrollbar-width: thin;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  *::-webkit-scrollbar-thumb,
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *:hover::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 999px;
+  }
+
+  *:hover::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 3px solid var(--scrollbar-track);
+  }
+
+  *:hover::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  *:hover::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-thumb-active);
+  }
+
+  *:hover {
+    --scrollbar-hover-fix: ;
+  }
+
+  .iconpicker-scroll:hover::-webkit-scrollbar-thumb {
+    border-width: 2px;
+  }
+}
+
+.app-tabs-scroll {
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.app-tabs-scroll::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+/* end Custom Scrollbar Styles */
+
+/* hide number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  color: #8d0a6199;
+}
+/* end hide number inputs */
+
+.btn-icon {
+  @apply group-hover:animate-wiggle ml-3 h-5 w-5 transition-all duration-75 ease-out;
+}
+
+.link {
+  @apply border-b-review-border text-muted-txt inline-flex h-2.75 border-b-3 leading-0 font-medium transition-all duration-100 ease-in-out hover:border-b-4 hover:text-primary-txt;
+}
+
+.cm-focused {
+  outline: none !important;
+}
+
+.cm-foldPlaceholder {
+  display: none;
+  visibility: hidden;
+}
+.react-resizable-handle {
+  pointer-events: auto;
+}
+.react-draggable-dragging {
+  will-change: transform;
+}
+.react-draggable-dragging * {
+  user-select: none !important;
+}
+.panels-resizing,
+.panels-resizing * {
+  user-select: none !important;
+  cursor: se-resize !important;
+}
+.proactive-panel-resizing,
+.proactive-panel-resizing * {
+  user-select: none !important;
+  cursor: ns-resize !important;
+}
+
+.pulse-node {
+  fill: var(--color-sea-soft);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.pulse-node.alt {
+  fill: var(--color-sea);
+  animation-delay: 1.2s;
+}
+
+.network-arc {
+  fill: none;
+  stroke: var(--color-sea-soft);
+  stroke-width: 0.35;
+  opacity: 0.12;
+}
+
+.travel-dot {
+  fill: var(--color-sea-hard);
+  filter: drop-shadow(0 0 1.5px var(--color-sea));
+}

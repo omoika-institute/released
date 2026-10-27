@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "@wdio/globals/types",
+      "@wdio/jasmine-framework",
+      "wdio-electron-service",
+      "jasmine"
+    ]
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}

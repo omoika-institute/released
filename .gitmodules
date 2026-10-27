@@ -1,0 +1,7 @@
+[submodule "framework"]
+	path = framework
+	url = git@github.com:omoika-institute/framework.git
+
+[submodule "graphexa"]
+	path = graphexa
+	url = git@github.com:jerlendds/graphexa.git

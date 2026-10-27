@@ -1,0 +1,43 @@
+@layer components {
+  .Toastify__toast {
+    @apply relative min-h-0 overflow-hidden rounded-xs border border-subtle bg-canvas! px-4 py-3 text-primary-txt;
+  }
+
+  .Toastify__toast::before {
+    @apply absolute inset-x-0 top-0 h-px;
+    content: "";
+  }
+
+  .Toastify__toast--error::before {
+    @apply bg-danger/30;
+  }
+
+  .Toastify__toast--success::before {
+    @apply bg-signal/25;
+  }
+
+  .Toastify__toast-body {
+    @apply m-0 items-center p-0;
+  }
+
+  .Toastify__close-button {
+    @apply text-primary-txt opacity-70;
+  }
+
+  .Toastify__close-button:hover {
+    @apply text-primary-txt;
+  }
+
+  .Toastify__progress-bar {
+    @apply bg-review-border/60;
+    height: 0.25rem !important;
+  }
+
+  .Toastify__progress-bar--success {
+    @apply bg-emerald-600;
+  }
+
+  .Toastify__progress-bar--error {
+    @apply bg-danger/50;
+  }
+}

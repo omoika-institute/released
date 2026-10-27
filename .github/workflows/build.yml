@@ -1,0 +1,166 @@
+permissions:
+  contents: write
+name: Build/release
+
+on:
+  push:
+    branches:
+      - "main"
+      - "releases/**"
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Configure submodule URLs
+        shell: bash
+        run: |
+          git config --global url."https://x-access-token:${{ github.token }}@github.com/".insteadOf "git@github.com:"
+
+      - name: Check out submodules
+        shell: bash
+        run: git submodule update --init --recursive --depth 1
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.10
+          cache: "npm"
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install wasm-pack
+        shell: bash
+        run: cargo install wasm-pack --locked
+
+      - name: Build Graphexa package
+        shell: bash
+        run: |
+          cd "${GITHUB_WORKSPACE}/graphexa"
+          npm run build
+
+      - name: Install framework Python build dependencies
+        shell: bash
+        run: |
+          GRAPHEXA_DIR="${GITHUB_WORKSPACE}/graphexa"
+          if [ ! -f "${GRAPHEXA_DIR}/pkg/graphexa.js" ]; then
+            echo "graphexa/pkg/graphexa.js is missing after building Graphexa."
+            exit 1
+          fi
+
+          FRAMEWORK_DIR="${GITHUB_WORKSPACE}/framework"
+          if [ ! -f "${FRAMEWORK_DIR}/pyproject.toml" ]; then
+            echo "framework/pyproject.toml is missing. Ensure the framework submodule is checked out."
+            exit 1
+          fi
+
+          python -m venv "${FRAMEWORK_DIR}/.venv"
+          FRAMEWORK_PYTHON="${FRAMEWORK_DIR}/.venv/bin/python"
+          if [ "${RUNNER_OS}" = "Windows" ]; then
+            FRAMEWORK_PYTHON="${FRAMEWORK_DIR}/.venv/Scripts/python.exe"
+          fi
+
+          cd "$FRAMEWORK_DIR"
+          "$FRAMEWORK_PYTHON" -m pip install --upgrade pip setuptools wheel
+          "$FRAMEWORK_PYTHON" -m pip install -e ".[all]" pyinstaller
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Decode certificate (Windows only)
+        if: matrix.os == 'windows-latest'
+        env:
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          $certificateBase64 = @'
+          ${{ secrets.WINDOWS_CERTIFICATE }}
+          '@
+          $certificateBase64 = $certificateBase64 -replace '\s', ''
+          $bytes = [Convert]::FromBase64String($certificateBase64)
+          $certificateFile = "$env:RUNNER_TEMP\cert.pfx"
+          [IO.File]::WriteAllBytes($certificateFile, $bytes)
+
+          Write-Host "Decoded Windows signing certificate to $certificateFile ($($bytes.Length) bytes)."
+          certutil -f -p "$env:WINDOWS_CERTIFICATE_PASSWORD" -dump $certificateFile
+        shell: pwsh
+
+      - name: Build Electron app (Windows)
+        if: matrix.os == 'windows-latest'
+        env:
+          WINDOWS_CERTIFICATE_FILE: ${{ runner.temp }}\cert.pfx
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: npm run build
+
+      - name: Build Electron app (non-Windows)
+        if: matrix.os != 'windows-latest'
+        run: npm run build
+
+      - name: Verify bundled Python runtime
+        shell: bash
+        run: |
+          WORKER_BINARY="omoika-worker"
+          if [ "${RUNNER_OS}" = "Windows" ]; then
+            WORKER_BINARY="omoika-worker.exe"
+          fi
+
+          RUNTIME_DIRS_FILE="$(mktemp)"
+          find out -type d -name omoika-runtime -print > "${RUNTIME_DIRS_FILE}"
+          if [ "$(wc -l < "${RUNTIME_DIRS_FILE}" | tr -d ' ')" -eq 0 ]; then
+            echo "Packaged app is missing resources/omoika-runtime"
+            find out -maxdepth 6 -type d -print
+            exit 1
+          fi
+
+          while IFS= read -r RUNTIME_DIR; do
+            WORKER_PATH="${RUNTIME_DIR}/${WORKER_BINARY}"
+            echo "Checking bundled Python runtime: ${RUNTIME_DIR}"
+            find "${RUNTIME_DIR}" -maxdepth 5 -print -ls
+
+            if [ ! -e "${WORKER_PATH}" ]; then
+              echo "Packaged app is missing ${WORKER_PATH}"
+              exit 1
+            fi
+
+            if [ ! -f "${WORKER_PATH}" ]; then
+              echo "Bundled worker is not a regular file: ${WORKER_PATH}"
+              ls -la "${WORKER_PATH}" || true
+              exit 1
+            fi
+
+            if [ "${RUNNER_OS}" != "Windows" ] && [ ! -x "${WORKER_PATH}" ]; then
+              echo "Bundled worker is not executable: ${WORKER_PATH}"
+              ls -la "${WORKER_PATH}"
+              exit 1
+            fi
+          done < "${RUNTIME_DIRS_FILE}"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-artifacts
+          path: |
+            out/make/**/*
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          files: out/make/**/*
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

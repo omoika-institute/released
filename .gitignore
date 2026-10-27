@@ -1,0 +1,37 @@
+# Developer specific
+.vscode/
+venv/
+.venv/
+.omoika-runtime*/
+.repos/
+.osi*
+server/
+biz/
+p2p/
+framework-not-sub/
+**/__pycache__
+paid_plugins/
+website/
+# Windows Signing Cert
+omoika-win*
+dist/
+# Logs
+logs
+*.log
+npm-debug.log*
+artifacts/
+omoika/
+
+# Dependency directories
+node_modules/
+ux/
+# dotenv environment variables file
+.env
+.env.test
+
+# Vite
+.vite/
+**/.codex
+# .codex
+# Electron-Forge
+out/

@@ -1,0 +1,68 @@
+/* Combined fade + expand tooltip (Tailwind v4, CSS-first) */
+@keyframes omoika-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale3d(0.2, 0.2, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+.tooltip {
+  @apply pointer-events-none absolute z-9999 rounded-xs bg-black/75 text-[14px] text-white shadow-lg;
+  animation: omoika-tooltip-in 200ms ease-in-out both;
+}
+
+.tooltip::after {
+  content: "";
+  @apply absolute -top-1.5 left-3 h-0 w-0 border-r-[6px] border-r-transparent border-l-[6px] border-l-transparent border-b-[6px] border-b-black/75;
+}
+
+.tooltip {
+  @apply relative;
+}
+
+.tooltip::before,
+.tooltip::after {
+  @apply pointer-events-none absolute block opacity-0;
+}
+
+.tooltip::after {
+  content: "";
+  @apply top-5 left-5 h-0 w-0 border-r-[6px] border-r-transparent border-l-[6px] border-l-transparent border-b-[6px] border-b-black/75;
+  transform: translate3d(0, -10px, 0) scale3d(0.2, 0.2, 1);
+  transform-origin: top center;
+  transition: all 0.2s ease-in-out;
+}
+
+.tooltip::before {
+  content: attr(data-title);
+  @apply top-6.5 left-0 whitespace-nowrap rounded-xs bg-black/75 px-2.5 py-1.5 text-[14px] text-white;
+  transform: translate3d(0, -10px, 0) scale3d(0.2, 0.2, 1);
+  transform-origin: top left;
+  transition: all 0.2s ease-in-out;
+}
+
+.tooltip:hover::before,
+.tooltip:hover::after,
+.tooltip:focus-visible::before,
+.tooltip:focus-visible::after {
+  @apply opacity-100;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+}
+
+/* Small delayed arrow pop feels nicer with the combined animation */
+.tooltip:hover::after,
+.tooltip:focus-visible::after {
+  transition: all 0.2s 0.1s ease-in-out;
+}
+
+/* Avoid rendering empty tooltips */
+.tooltip:not([data-title])::before,
+.tooltip:not([data-title])::after,
+.tooltip[data-title=""]::before,
+.tooltip[data-title=""]::after {
+  display: none;
+}

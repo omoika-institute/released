@@ -1,0 +1,19 @@
+<!doctype html>
+<html data-theme="dark">
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; connect-src 'self' ws: wss: http://127.0.0.1:* http://localhost:*; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; "
+    />
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>OMOIKA</title>
+    <link rel="stylesheet" href="./src/assets/styles/index.css" />
+  </head>
+  <body>
+    <div id="omoika"></div>
+    <script prerender type="module" src="/src/renderer.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+.react-flow__node.selected {
+  --t: 5px; /* thickness of the border */
+  --c: var(--color-review-border); /* color of the border */
+  --w: 30px; /* width of border */
+  padding: 4px;
+  border-radius: 3px;
+  border: var(--t) solid #0000; /* space for the border */
+  --_g: #0000 90deg, var(--c) 0;
+  --_p: var(--w) var(--w) border-box no-repeat;
+  background:
+    conic-gradient(from 90deg at top var(--t) left var(--t), var(--_g)) 0 0 /
+      var(--_p),
+    conic-gradient(from 180deg at top var(--t) right var(--t), var(--_g)) 100%
+      0 / var(--_p),
+    conic-gradient(from 0deg at bottom var(--t) left var(--t), var(--_g)) 0
+      100% / var(--_p),
+    conic-gradient(from -90deg at bottom var(--t) right var(--t), var(--_g))
+      100% 100% / var(--_p);
+  padding: 4px;
+}
+.react-flow__node {
+  --t: 5px; /* thickness of the border */
+  --c: transparent; /* color of the border */
+  --w: 30px; /* width of border */
+  padding: 4px;
+  border-radius: 3px;
+  border: var(--t) solid transparent; /* space for the border */
+  --_g: #0000 90deg, var(--c) 0;
+  --_p: var(--w) var(--w) border-box no-repeat;
+  background:
+    conic-gradient(from 90deg at top var(--t) left var(--t), var(--_g)) 0 0 /
+      var(--_p),
+    conic-gradient(from 180deg at top var(--t) right var(--t), var(--_g)) 100%
+      0 / var(--_p),
+    conic-gradient(from 0deg at bottom var(--t) left var(--t), var(--_g)) 0
+      100% / var(--_p),
+    conic-gradient(from -90deg at bottom var(--t) right var(--t), var(--_g))
+      100% 100% / var(--_p);
+  padding: 4px;
+}
+
+/* Start node */
+.node {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(115 116 121 / 0.18) !important;
+  background: var(--color-canvas) !important;
+  color: var(--color-primary-txt);
+}
+
+.node:hover,
+.react-flow__node.selected .node {
+  border-color: var(--color-dot-active);
+}
+
+.node.entity-edit-node {
+  overflow: visible;
+}
+
+.node.wrapper {
+  @apply flex w-auto max-w-sm cursor-grab flex-col justify-between rounded-sm py-px transition-all duration-150 ease-in-out focus:cursor-grabbing active:cursor-grabbing;
+}
+
+.node .header {
+  @apply flex h-full w-full cursor-grab items-center justify-between rounded-sm border border-subtle/50 bg-paper p-1 text-primary-txt select-none focus:cursor-grabbing active:cursor-grabbing;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.035);
+}
+
+.node .header svg {
+  @apply h-13! w-13! cursor-grab focus:cursor-grabbing active:cursor-grabbing;
+}
+
+.node .side-header {
+  @apply flex w-10 shrink-0 flex-col items-center justify-center rounded-l-sm border-r border-subtle/50 bg-panel/75 px-0 py-1 text-sm font-medium text-primary-txt/70;
+}
+
+.node .side-header svg {
+  @apply h-5 w-5;
+}
+
+.node .node-display {
+  @apply flex w-full flex-col;
+}
+
+.node .node-display h1 {
+  @apply leading-3 text-primary-txt;
+}
+
+.node .node-display h2 {
+  @apply leading-4;
+}
+
+.node .node-display h1,
+.node .node-display h2,
+.node .node-display p {
+  @apply font-sans text-sm font-semibold wrap-break-word text-primary-txt hover:cursor-pointer;
+  letter-spacing: 0;
+}
+.node .node-display p {
+  @apply pt-1.5 text-xs font-normal;
+}
+.node .node-display h2 {
+  @apply text-xs;
+}
+
+.text-container {
+  @apply flex w-full flex-col px-2 font-medium;
+}
+
+.text-container p:first-child,
+.text-container p:first-child > span {
+  @apply font-sans text-[0.5rem] tracking-[0.22em] text-terminal-txt/60;
+}
+
+.text-container p:last-child {
+  @apply font-sans max-w-xl text-xs font-medium text-primary-txt;
+}
+
+.node-field {
+  @apply relative flex min-h-7 w-full items-center justify-between border border-subtle/50 bg-paper pl-0.5 text-sm leading-4 text-terminal-txt shadow-sm transition-colors duration-150 ease-in-out hover:border-review-border/25 hover:bg-panel focus-within:border-review-border/45! focus-within:bg-panel focus-within:text-primary-txt;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.03),
+    0 1px 10px rgb(0 0 0 / 0.12);
+}
+
+.node-field svg {
+  @apply pointer-events-none absolute top-1 right-1 h-4 w-4 text-primary-txt/45;
+}
+
+.node-field input {
+  @apply h-5 w-full min-w-0 bg-transparent py-0.5 pr-5 pl-1 font-sans text-[12px] text-inherit transition-colors duration-100 ease-in placeholder:text-terminal-txt/45 focus:ring-0 focus:outline-hidden;
+}
+
+.node-field.dropdown input {
+  @apply pl-1.5;
+}
+
+/* @todo :has is not supported by firefox yet :( */
+.node-field:has(input:focus) {
+  @apply ring-review-border/20;
+}
+
+.node-field:has(input:focus) svg {
+  @apply text-review-border;
+}
+
+p.node-label {
+  @apply mt-1 font-sans text-[0.5rem] font-medium tracking-[0.22em] text-terminal-txt/60;
+}
+/* End node */
+
+.elements {
+  @apply grid gap-x-1 border-t border-subtle/50 bg-paper/20 p-2;
+}
+
+.edit-node-field-row {
+  @apply min-w-0 gap-x-2;
+}
+
+.edit-node-field-row > * {
+  min-width: 0;
+}
+
+.elements > div:nth-child(even) {
+  @apply mr-0;
+}
+
+.node-details-popup .arrow {
+  color: #797979;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  margin: 30px auto;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 20px solid rgb(23 35 65);
+}
